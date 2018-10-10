@@ -57,5 +57,6 @@ REST API for money transfer without Spring!
 
 **Response if transaction processing failed (no account, no money, transfer to the same account):** `406 Not Acceptable`
 
+---
 
 This project is MIT licensed.
