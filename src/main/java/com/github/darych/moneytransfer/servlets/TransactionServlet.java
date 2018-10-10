@@ -40,7 +40,7 @@ public class TransactionServlet extends BaseServlet {
      * @param response
      * @return 200 if money was transferred successfully.
      * @return 400 if could not parse transaction JSON.
-     * @return 406 if transaction processing failed.
+     * @return 406 if transaction processing failed (no account, no money, transfer to the same account).
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
