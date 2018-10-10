@@ -88,7 +88,7 @@ public class AccountServlet extends BaseServlet {
 
         try {
             Account acc = objectMapper.readValue(reader, Account.class);
-            acc = accountService.save(acc); //TODO What if account already exist?
+            acc = accountService.save(acc);
             response.getWriter().print(objectMapper.writeValueAsString(acc));
             response.setStatus(HttpServletResponse.SC_CREATED);
         } catch (IOException e) {
