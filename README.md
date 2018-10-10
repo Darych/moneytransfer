@@ -1,6 +1,11 @@
 # Money Transfer
 
-REST API to simple money transfer.
+REST API for money transfer without Spring!
+
+**Libraries:**
+* Jetty as an embedded web server
+* Guice as a DI tool
+* Jackson for JSON serialization/deserializtion.
 
 ## Create account
 **Request:**
