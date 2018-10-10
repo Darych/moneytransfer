@@ -1,0 +1,12 @@
+ext {
+    jetty_version = '9.4.12.v20180830'
+    slf4j_version = '1.7.25'
+    httpclient_version = '4.5.6'
+    jackson_version = '2.9.7'
+    guice_version = '4.2.1'
+
+    logback_version = '1.2.3'
+
+    junit_version = '5.3.1'
+    mockito_version = '2.23.0'
+}

@@ -1,0 +1,48 @@
+buildscript {
+    apply from: 'versions.gradle'
+}
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+mainClassName = 'com.github.darych.moneytransfer.Application'
+
+sourceCompatibility = 1.8
+
+group 'com.github.darych'
+version '1.0-SNAPSHOT'
+
+jar {
+    baseName = "moneytransfer"
+    version = "1.0"
+    manifest {
+        attributes 'Main-Class': 'com.github.darych.moneytransfer.Application'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.eclipse.jetty:jetty-server:$jetty_version"
+    compile "org.eclipse.jetty:jetty-servlet:$jetty_version"
+    compile "org.eclipse.jetty:jetty-servlets:$jetty_version"
+    compile "org.slf4j:slf4j-api:$slf4j_version"
+    compile "org.apache.httpcomponents:httpclient:$httpclient_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.google.inject:guice:$guice_version"
+    compile "com.google.inject.extensions:guice-servlet:$guice_version"
+
+    runtime "ch.qos.logback:logback-core:$logback_version"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.mockito:mockito-junit-jupiter:$mockito_version"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+}
