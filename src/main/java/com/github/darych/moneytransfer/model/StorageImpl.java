@@ -51,4 +51,14 @@ public class StorageImpl implements Storage {
         storage.clear();
         maxId = 0;
     }
+
+    /**
+     * Get saved accounts count.
+     *
+     * @return accounts count.
+     */
+    @Override
+    public int size() {
+        return storage.size();
+    }
 }

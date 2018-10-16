@@ -7,4 +7,5 @@ public interface Storage {
     Account save(Account account) throws StorageException;
     Account get(int id);
     void clear();
+    int size();
 }

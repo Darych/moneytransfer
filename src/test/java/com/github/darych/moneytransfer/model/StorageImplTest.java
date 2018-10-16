@@ -17,10 +17,10 @@ class StorageImplTest {
     }
 
     @Nested
-    @DisplayName("Create tests")
+    @DisplayName("Save tests")
     class CreateTest {
         @Test
-        @DisplayName("Create account with id 1 in empty storage")
+        @DisplayName("Save account with id 1 in empty storage")
         void createAccountWithId1InEmptyStorage() throws StorageException {
             Account accountWithId = storage.save(account1);
 
@@ -28,7 +28,7 @@ class StorageImplTest {
         }
 
         @Test
-        @DisplayName("Create account with id 2 in storage with size 1")
+        @DisplayName("Save account with id 2 in storage with size 1")
         void createAccountId2InStorageSize1() throws StorageException {
             storage.save(account1);
             Account account2 = new Account("user2", 2.3);
@@ -38,14 +38,24 @@ class StorageImplTest {
             assertEquals(2, account2WithId.getId());
         }
 
+        @Test
+        @DisplayName("Save existing account with updated balance")
+        void saveExistingAccountWithUpdatedBalance() throws StorageException {
+            storage.save(account1);
+            account1.setBalance(10);
+
+            storage.save(account1);
+
+            assertEquals(1, storage.size());
+            assertEquals(10, storage.get(1).getBalance());
+        }
+
         @Nested
         class Negative {
             @Test
             @DisplayName("Throw StorageException if account is null")
             void throwStorageExceptionIfAccountNull() {
-                assertThrows(StorageException.class, () -> {
-                    storage.save(null);
-                });
+                assertThrows(StorageException.class, () -> storage.save(null));
             }
         }
     }
