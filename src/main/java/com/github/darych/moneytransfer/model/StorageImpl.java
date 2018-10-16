@@ -26,7 +26,9 @@ public class StorageImpl implements Storage {
         if (account == null) {
             throw new StorageException("Account object is null.");
         }
-        account.setId(++maxId);
+        if (account.getId() == 0) {
+            account.setId(++maxId);
+        }
         storage.put(account.getId(), account);
         return account;
     }
