@@ -4,16 +4,12 @@ import com.google.inject.Singleton;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Singleton
 public class StorageImpl implements Storage {
-    private Map<Integer, Account> storage;
-    private int maxId;
-
-    public StorageImpl() {
-        storage = new ConcurrentHashMap<>();
-        maxId = 0;
-    }
+    private Map<Integer, Account> storage = new ConcurrentHashMap<>();
+    private AtomicInteger maxId = new AtomicInteger(0);
 
     /**
      * Save account in local storage.
@@ -27,7 +23,7 @@ public class StorageImpl implements Storage {
             throw new StorageException("Account object is null.");
         }
         if (account.getId() == 0) {
-            account.setId(++maxId);
+            account.setId(maxId.incrementAndGet());
         }
         storage.put(account.getId(), account);
         return account;
@@ -49,7 +45,7 @@ public class StorageImpl implements Storage {
     @Override
     public void clear() {
         storage.clear();
-        maxId = 0;
+        maxId.set(0);
     }
 
     /**

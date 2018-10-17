@@ -5,6 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class StorageImplTest {
@@ -48,6 +51,52 @@ class StorageImplTest {
 
             assertEquals(1, storage.size());
             assertEquals(10, storage.get(1).getBalance());
+        }
+
+        @Test
+        @DisplayName("Save many users in parallel")
+        void saveManyUsersInParallel() {
+            final int COUNT = 1000;
+            ArrayList<Thread> threads = new ArrayList<>(COUNT);
+            for (int i = 0; i < COUNT; ++i) {
+                threads.add(new Thread(new RunnableSave(storage, i)));
+            }
+
+            for (int i = 0; i < COUNT; ++i) {
+                threads.get(i).start();
+            }
+
+            for (int i = 0; i < COUNT; ++i) {
+                try {
+                    threads.get(i).join(1000);
+                } catch (InterruptedException e) {
+                    fail(e);
+                }
+            }
+
+            assertEquals(COUNT, storage.size());
+            for (int i = 1; i < COUNT; ++i) {
+                assertNotNull(storage.get(i+1));
+            }
+        }
+
+        class RunnableSave implements Runnable {
+            private int i;
+            private Storage storage;
+
+            RunnableSave(Storage storage, int i) {
+                this.storage = storage;
+                this.i = i;
+            }
+
+            @Override
+            public void run() {
+                try {
+                    storage.save(new Account("user" + i, i * 10));
+                } catch (StorageException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         @Nested
